@@ -71,6 +71,7 @@ class _AddCanvas extends State<AddCanvas>{
     } else{
       AddCanvasRate addCanvasRate = AddCanvasRate(canvasrate: addCanvasController.text.toString(),id: 0);
     var intId =  dbManager.insertCanvasRate(addCanvasRate);
+    Navigator.of(context).pop();
     print("InsertId$intId");
     }
   }

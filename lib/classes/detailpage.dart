@@ -21,7 +21,7 @@ class DetailPage  extends StatelessWidget{
   Widget build(BuildContext context) {
     final DbManager dbManager = DbManager();
     dbManager.openDb().whenComplete(() async {
-      await getCanvasData();
+    //  await getCanvasData();
     });
     return Scaffold(
       floatingActionButton: FloatingActionButton(

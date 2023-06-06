@@ -8,7 +8,9 @@ import 'package:flutterapi/uttils/constant.dart';
 import 'package:flutterapi/uttils/uttils.dart';
 
 import '../database/dbManager.dart';
-import '../widget/edittext.dart';
+import '../model/addSettingData.dart';
+import '../widget/country_selection_textfield_widget.dart' show CountrySelectionTextField;
+
 
 class HomeScreen extends StatefulWidget {
 
@@ -19,7 +21,7 @@ class HomeScreen extends StatefulWidget {
 
 }
 
-class _HomeScreen extends State<HomeScreen>{
+class _HomeScreen extends State<HomeScreen>   with WidgetsBindingObserver {
 
   final DbManager dbManager = DbManager();
 
@@ -28,19 +30,43 @@ class _HomeScreen extends State<HomeScreen>{
 
   TextEditingController areaController = TextEditingController();
   TextEditingController sizeController = TextEditingController();
+  TextEditingController meterController = TextEditingController();
+  TextEditingController frameController = TextEditingController();
+  TextEditingController workController = TextEditingController();
+  TextEditingController rateController = TextEditingController();
+
+
+  final FocusNode _areaNode = FocusNode();
+  final FocusNode _sizedNode = FocusNode();
+  final FocusNode _meterNode = FocusNode();
+  final FocusNode _framedNode = FocusNode();
+  final FocusNode _workdNode = FocusNode();
+  final FocusNode _ratewordNode = FocusNode();
+
+
   String fullName = '';
   var lineItem;
+
+
+  var assetsImage = const AssetImage('assets/images/setting.png'); //<- Creates an object that fetches an image.
+  //<- Creates a widget that displays an image.
+
 
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
     _editingController = TextEditingController();
-
+    final DbManager dbManager = DbManager();
+    dbManager.openDb().whenComplete(() async {
+      getSettingData();
+    });
+    WidgetsBinding.instance.addObserver(this);
   }
 
   @override
   void dispose() {
+    WidgetsBinding.instance.removeObserver(this);
     _editingController.dispose();
     super.dispose();
   }
@@ -48,9 +74,11 @@ class _HomeScreen extends State<HomeScreen>{
 
   @override
   Widget build(BuildContext context) {
+    var image = Image(image: assetsImage, fit: BoxFit.cover);
      return Scaffold(
        body: Padding(padding: const EdgeInsets.all(10),
-         child:  SizedBox(
+         child:  SingleChildScrollView(child:
+         SizedBox(
              width: Uttils.getDeviceWidth(context),
              height: Uttils.getDeviceHeight(context),
              child:  DecoratedBox(
@@ -67,20 +95,115 @@ class _HomeScreen extends State<HomeScreen>{
                        onTap: (){
                          Navigator.of(context).push(MaterialPageRoute(builder: (context) => const Setting()));
                        },
-                       child:   const ImageIcon(
-                           AssetImage('assets/images/setting.png'), size: 50),),
+                       child:
+                       Padding(padding: EdgeInsets.only(top: 10),child:
+                       Align(
+                         alignment: Alignment.topRight,
+                         child: SizedBox(
+                           width: 40,
+                           height: 40,
+                           child:   Card(
+                             elevation: 10,
+                             child: Container(
+                                 child: image
+                             ),
+                           ),
+                         ),
+                       ),
+                     ))),
+                    Padding(
+                     padding: const EdgeInsets.only(left: 46, right: 46),
+                     child: CountrySelectionTextField(
+                       myController: areaController,
+                       myFocusNode: _areaNode,
+                       hintText: "Area",
+                       inputAction: TextInputAction.next,
+                       inputType: TextInputType.number,
+                       onSubmited: (str) {
+                       }, onChanged: (String ) {  },
                      ),
-                   Padding(padding:  EdgeInsets.all(Constant.paddingMain),child:   _editTitleTextField('Area',areaController,TextInputType.number),),
-                   Padding(padding:  EdgeInsets.all(Constant.paddingMain),child:   _editTitleTextField('Area',sizeController,TextInputType.number),),
-                   Row(
-                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                     children: [
-                       ElevatedButton(onPressed: (){
-                     //  showAddSequenceDialoug();
-                       Navigator.of(context).push(MaterialPageRoute(builder: (context) => const AddCanvas()));
-                     }, child: const Text("Add Canvas"))],
                    ),
-                   Padding(padding:  EdgeInsets.all(Constant.paddingMain),child:   _editTitleTextField('Area',sizeController,TextInputType.number),),
+                   const SizedBox(
+                     height: 20,
+                   ),
+                   Padding(
+                     padding: const EdgeInsets.only(left: 46, right: 46),
+                     child: CountrySelectionTextField(
+                       myController: sizeController,
+                       myFocusNode: _sizedNode,
+                       hintText: "Size",
+                       inputAction: TextInputAction.next,
+                       inputType: TextInputType.number,
+                       onSubmited: (str) {
+
+                       }, onChanged: (String ) {  },
+                     ),
+                   ),
+                   const SizedBox(
+                     height: 20,
+                   ),
+                   Padding(
+                     padding: const EdgeInsets.only(left: 46, right: 46),
+                     child: CountrySelectionTextField(
+                       myController: meterController,
+                       myFocusNode: _meterNode,
+                       hintText: "Meter",
+                       inputAction: TextInputAction.next,
+                       inputType: TextInputType.number,
+                       onSubmited: (str) {
+                       }, onChanged: (String ) {  },
+                     ),
+                   ),
+                   const SizedBox(
+                     height: 20,
+                   ),
+                   Padding(
+                     padding: const EdgeInsets.only(left: 46, right: 46),
+                     child: CountrySelectionTextField(
+                       myController: frameController,
+                       myFocusNode: _framedNode,
+                       hintText: "Frame",
+                       inputAction: TextInputAction.next,
+                       inputType: TextInputType.number,
+                       onSubmited: (str) {
+
+                       }, onChanged: (String ) {  },
+                     ),
+                   ),
+                   const SizedBox(
+                     height: 20,
+                   ),
+                   Padding(
+                     padding: const EdgeInsets.only(left: 46, right: 46),
+                     child: CountrySelectionTextField(
+                       myController: workController,
+                       myFocusNode: _workdNode,
+                       hintText: "Work",
+                       inputAction: TextInputAction.next,
+                       inputType: TextInputType.number,
+                       onSubmited: (str) {
+                       }, onChanged: (String ) {  },
+                     ),
+                   ),
+                   const SizedBox(
+                     height: 20,
+                   ),
+                   Padding(
+                     padding: const EdgeInsets.only(left: 46, right: 46),
+                     child: CountrySelectionTextField(
+                       myController: rateController,
+                       myFocusNode: _ratewordNode,
+                       hintText: "Rate",
+                       inputAction: TextInputAction.next,
+                       inputType: TextInputType.number,
+                       onSubmited: (str) {
+
+                       }, onChanged: (String ) {  },
+                     ),
+                   ),
+                   const SizedBox(
+                    height: 20,
+                   ),
                    ElevatedButton(onPressed: (){
                     checkValidation();
                    }, child: const Text("Submit"))
@@ -89,27 +212,9 @@ class _HomeScreen extends State<HomeScreen>{
                ),
              )
          ),
-       )
+       ))
       ,
      );
-  }
-
-  Widget _editTitleTextField(String strLabel, TextEditingController areaController, TextInputType inputType) {
-    return Center(
-      child: TextFormField(
-        keyboardType: inputType,
-        controller: areaController,
-        decoration: const InputDecoration(
-          border: OutlineInputBorder(),
-          label: Text("Area"),
-        ),
-        onChanged: (text) {
-          setState(() {
-            fullName = text;
-          });
-        },
-      ),
-    );;
   }
 
   void calculateArea() {
@@ -170,4 +275,54 @@ class _HomeScreen extends State<HomeScreen>{
           );
         });
   }
+
+  void getSettingData() async{
+    final DbManager dbManager = DbManager();
+
+    Future<List<AddSettingData>> listsetting   = dbManager.getSettingData();
+    List<AddSettingData> listsettings = await listsetting;
+
+    if(listsettings.isNotEmpty){
+
+      var meter = listsettings[0].meter.toString();
+      var frame = listsettings[0].frame.toString();
+      var work = listsettings[0].work.toString();
+      var rate = listsettings[0].rate.toString();
+
+      setState(() {
+         meterController.text = meter;
+         frameController.text = frame;
+         workController.text = work;
+         rateController.text = rate;
+      });
+    }
+
+  }
+
+  @override
+  void didChangeAppLifecycleState(AppLifecycleState state) {
+    if(state == AppLifecycleState.resumed){
+      // user returned to our app
+      print("State"+"Resumed");
+      dbManager.openDb().whenComplete(() async {
+        getSettingData();
+      });
+    }else if(state == AppLifecycleState.inactive){
+      // app is inactive
+      print("State"+"InActive");
+    }else if(state == AppLifecycleState.paused){
+      // user is about quit our app temporally
+      print("State"+"Paused");
+    }else if(state == AppLifecycleState.detached){
+      // app suspended (not used in iOS)
+      print("State"+"Detached");
+    }
+  }
+
+  _fieldFocusChange(
+      BuildContext context, FocusNode currentFocus, FocusNode nextFocus) {
+    currentFocus.unfocus();
+    FocusScope.of(context).requestFocus(nextFocus);
+  }
+
 }
