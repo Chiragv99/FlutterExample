@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutterapi/classes/addcanvas.dart';
 import 'package:flutterapi/classes/detailpage.dart';
@@ -7,10 +8,11 @@ import 'package:flutterapi/model/invoice.dart';
 import 'package:flutterapi/uttils/constant.dart';
 import 'package:flutterapi/uttils/uttils.dart';
 
+import '../common/my_colors.dart';
 import '../database/dbManager.dart';
 import '../model/addSettingData.dart';
 import '../widget/country_selection_textfield_widget.dart' show CountrySelectionTextField;
-
+import 'package:need_resume/need_resume.dart';
 
 class HomeScreen extends StatefulWidget {
 
@@ -21,11 +23,9 @@ class HomeScreen extends StatefulWidget {
 
 }
 
-class _HomeScreen extends State<HomeScreen>   with WidgetsBindingObserver {
+class _HomeScreen extends ResumableState<HomeScreen> {
 
   final DbManager dbManager = DbManager();
-
-  late TextEditingController _editingController;
 
 
   TextEditingController areaController = TextEditingController();
@@ -40,44 +40,57 @@ class _HomeScreen extends State<HomeScreen>   with WidgetsBindingObserver {
   final FocusNode _sizedNode = FocusNode();
   final FocusNode _meterNode = FocusNode();
   final FocusNode _framedNode = FocusNode();
-  final FocusNode _workdNode = FocusNode();
+  final FocusNode _workNode = FocusNode();
   final FocusNode _ratewordNode = FocusNode();
 
 
   String fullName = '';
-  var lineItem;
+
 
 
   var assetsImage = const AssetImage('assets/images/setting.png'); //<- Creates an object that fetches an image.
   //<- Creates a widget that displays an image.
 
 
+  String dropdownvalue = 'A';
+  var items =  ['A','B','C','D'];
+
+  @override
+  void onReady() {
+    // Implement your code inside here
+    print('HomeScreen is ready!');
+  }
+
+  @override
+  void onResume() {
+    // Implement your code inside here
+    dbManager.openDb().whenComplete(() async {
+      getSettingData();
+    });
+  }
+
+  @override
+  void onPause() {
+    // Implement your code inside here
+    print('HomeScreen is paused!');
+  }
+
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
-    _editingController = TextEditingController();
     final DbManager dbManager = DbManager();
     dbManager.openDb().whenComplete(() async {
       getSettingData();
     });
-    WidgetsBinding.instance.addObserver(this);
   }
-
-  @override
-  void dispose() {
-    WidgetsBinding.instance.removeObserver(this);
-    _editingController.dispose();
-    super.dispose();
-  }
-
 
   @override
   Widget build(BuildContext context) {
     var image = Image(image: assetsImage, fit: BoxFit.cover);
      return Scaffold(
        body: Padding(padding: const EdgeInsets.all(10),
-         child:  SingleChildScrollView(child:
+         child:
          SizedBox(
              width: Uttils.getDeviceWidth(context),
              height: Uttils.getDeviceHeight(context),
@@ -93,10 +106,11 @@ class _HomeScreen extends State<HomeScreen>   with WidgetsBindingObserver {
                      alignment: Alignment.topRight,
                      child: InkWell(
                        onTap: (){
-                         Navigator.of(context).push(MaterialPageRoute(builder: (context) => const Setting()));
+                         push(context, MaterialPageRoute(builder: (context) => Setting()));
+                       //  Navigator.of(context).push(MaterialPageRoute(builder: (context) => const Setting()));
                        },
                        child:
-                       Padding(padding: EdgeInsets.only(top: 10),child:
+                       Padding(padding: const EdgeInsets.only(top: 10),child:
                        Align(
                          alignment: Alignment.topRight,
                          child: SizedBox(
@@ -111,108 +125,165 @@ class _HomeScreen extends State<HomeScreen>   with WidgetsBindingObserver {
                          ),
                        ),
                      ))),
-                    Padding(
-                     padding: const EdgeInsets.only(left: 46, right: 46),
-                     child: CountrySelectionTextField(
-                       myController: areaController,
-                       myFocusNode: _areaNode,
-                       hintText: "Area",
-                       inputAction: TextInputAction.next,
-                       inputType: TextInputType.number,
-                       onSubmited: (str) {
-                       }, onChanged: (String ) {  },
-                     ),
-                   ),
-                   const SizedBox(
-                     height: 20,
-                   ),
-                   Padding(
-                     padding: const EdgeInsets.only(left: 46, right: 46),
-                     child: CountrySelectionTextField(
-                       myController: sizeController,
-                       myFocusNode: _sizedNode,
-                       hintText: "Size",
-                       inputAction: TextInputAction.next,
-                       inputType: TextInputType.number,
-                       onSubmited: (str) {
+                      SingleChildScrollView(
+                        child: Column(
+                          children: [
+                            Padding(
+                              padding: const EdgeInsets.only(left: 46, right: 46),child:  Align(
+                                alignment: Alignment.topLeft,
+                                child: getHintText("Area")
+                            ),),
+                            Padding(
+                              padding: const EdgeInsets.only(left: 46, right: 46),
+                              child: CountrySelectionTextField(
+                                myController: areaController,
+                                myFocusNode: _areaNode,
+                                hintText: "Enter Area Here",
+                                inputAction: TextInputAction.next,
+                                inputType: TextInputType.number,
+                                onSubmited: (str) {
+                                }, onChanged: (String ) {  },
+                              ),
+                            ),
+                            const SizedBox(
+                              height: 20,
+                            ),
+                            Padding(
+                              padding: const EdgeInsets.only(left: 46, right: 46),child:  Align(
+                              alignment: Alignment.topLeft,
+                              child:   getHintText("Size"),
+                            ),),
+                            Padding(
+                              padding: const EdgeInsets.only(left: 46, right: 46),
+                              child: CountrySelectionTextField(
+                                myController: sizeController,
+                                myFocusNode: _sizedNode,
+                                hintText: "Enter size here",
+                                inputAction: TextInputAction.next,
+                                inputType: TextInputType.number,
+                                onSubmited: (str) {
 
-                       }, onChanged: (String ) {  },
-                     ),
-                   ),
-                   const SizedBox(
-                     height: 20,
-                   ),
-                   Padding(
-                     padding: const EdgeInsets.only(left: 46, right: 46),
-                     child: CountrySelectionTextField(
-                       myController: meterController,
-                       myFocusNode: _meterNode,
-                       hintText: "Meter",
-                       inputAction: TextInputAction.next,
-                       inputType: TextInputType.number,
-                       onSubmited: (str) {
-                       }, onChanged: (String ) {  },
-                     ),
-                   ),
-                   const SizedBox(
-                     height: 20,
-                   ),
-                   Padding(
-                     padding: const EdgeInsets.only(left: 46, right: 46),
-                     child: CountrySelectionTextField(
-                       myController: frameController,
-                       myFocusNode: _framedNode,
-                       hintText: "Frame",
-                       inputAction: TextInputAction.next,
-                       inputType: TextInputType.number,
-                       onSubmited: (str) {
+                                }, onChanged: (String ) {  },
+                              ),
+                            ),
+                            const SizedBox(
+                              height: 20,
+                            ),
+                            Padding(
+                              padding: const EdgeInsets.only(left: 46, right: 46),child:  Align(
+                              alignment: Alignment.topLeft,
+                              child:   Uttils.getHintFiledText("Meter"),
+                            ),),
+                            Padding(
+                              padding: const EdgeInsets.only(left: 46, right: 46),
+                              child: CountrySelectionTextField(
+                                myController: meterController,
+                                myFocusNode: _meterNode,
+                                hintText: "Enter Meter here",
+                                inputAction: TextInputAction.next,
+                                inputType: TextInputType.number,
+                                onSubmited: (str) {
+                                }, onChanged: (String ) {  },
+                              ),
+                            ),
+                            const SizedBox(
+                              height: 20,
+                            ),
+                            Padding(
+                              padding: const EdgeInsets.only(left: 46, right: 46),child:  Align(
+                              alignment: Alignment.topLeft,
+                              child:   Uttils.getHintFiledText("Frame"),
+                            ),),
+                            Padding(
+                              padding: const EdgeInsets.only(left: 46, right: 46),
+                              child: CountrySelectionTextField(
+                                myController: frameController,
+                                myFocusNode: _framedNode,
+                                hintText: "Enter Frame Here",
+                                inputAction: TextInputAction.next,
+                                inputType: TextInputType.number,
+                                onSubmited: (str) {
 
-                       }, onChanged: (String ) {  },
-                     ),
-                   ),
-                   const SizedBox(
-                     height: 20,
-                   ),
-                   Padding(
-                     padding: const EdgeInsets.only(left: 46, right: 46),
-                     child: CountrySelectionTextField(
-                       myController: workController,
-                       myFocusNode: _workdNode,
-                       hintText: "Work",
-                       inputAction: TextInputAction.next,
-                       inputType: TextInputType.number,
-                       onSubmited: (str) {
-                       }, onChanged: (String ) {  },
-                     ),
-                   ),
-                   const SizedBox(
-                     height: 20,
-                   ),
-                   Padding(
-                     padding: const EdgeInsets.only(left: 46, right: 46),
-                     child: CountrySelectionTextField(
-                       myController: rateController,
-                       myFocusNode: _ratewordNode,
-                       hintText: "Rate",
-                       inputAction: TextInputAction.next,
-                       inputType: TextInputType.number,
-                       onSubmited: (str) {
+                                }, onChanged: (String ) {  },
+                              ),
+                            ),
+                            const SizedBox(
+                              height: 20,
+                            ),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                              children: [
+                                DropdownButtonHideUnderline(child:  DropdownButton(
+                                  value: dropdownvalue,
+                                  icon: const Icon(Icons.keyboard_arrow_down),
+                                  items: items.map((String items) {
+                                    return DropdownMenuItem(
+                                      value: items,
+                                      child: Text(items),
+                                    );
+                                  }).toList(),
+                                  onChanged: (String? newValue) {
+                                    setState(() {
+                                      dropdownvalue = newValue!;
+                                    });
+                                  },
+                                )),
+                                ElevatedButton(onPressed: (){
+                                   print("Dropdown"+dropdownvalue);
+                                }, child: const Text("Add Sequence"))
+                              ],
+                            ),
+                            Padding(
+                              padding: const EdgeInsets.only(left: 46, right: 46),child:  Align(
+                              alignment: Alignment.topLeft,
+                              child:  Uttils.getHintFiledText("Work"),
+                            ),),
+                            Padding(
+                              padding: const EdgeInsets.only(left: 46, right: 46),
+                              child: CountrySelectionTextField(
+                                myController: workController,
+                                myFocusNode: _workNode,
+                                hintText: "Enter Work Here",
+                                inputAction: TextInputAction.next,
+                                inputType: TextInputType.number,
+                                onSubmited: (str) {
+                                }, onChanged: (String ) {  },
+                              ),
+                            ),
+                            const SizedBox(
+                              height: 20,
+                            ),
+                            Padding(
+                              padding: const EdgeInsets.only(left: 46, right: 46),child:  Align(
+                              alignment: Alignment.topLeft,
+                              child:   Uttils.getHintFiledText("Rate"),
+                            ),),
+                            Padding(
+                              padding: const EdgeInsets.only(left: 46, right: 46),
+                              child: CountrySelectionTextField(
+                                myController: rateController,
+                                myFocusNode: _ratewordNode,
+                                hintText: "Enter Rate Here",
+                                inputAction: TextInputAction.next,
+                                inputType: TextInputType.number,
+                                onSubmited: (str) {
 
-                       }, onChanged: (String ) {  },
-                     ),
-                   ),
-                   const SizedBox(
+                                }, onChanged: (String ) {  },
+                              ),
+                            ),
+                          ],
+                        ),
+                      )
+                     ,
+                    const SizedBox(
                     height: 20,
                    ),
-                   ElevatedButton(onPressed: (){
-                    checkValidation();
-                   }, child: const Text("Submit"))
-
+                  Uttils.getMainButton("Submit"),
                  ],
                ),
              )
          ),
-       ))
+       )
       ,
      );
   }
@@ -299,25 +370,6 @@ class _HomeScreen extends State<HomeScreen>   with WidgetsBindingObserver {
 
   }
 
-  @override
-  void didChangeAppLifecycleState(AppLifecycleState state) {
-    if(state == AppLifecycleState.resumed){
-      // user returned to our app
-      print("State"+"Resumed");
-      dbManager.openDb().whenComplete(() async {
-        getSettingData();
-      });
-    }else if(state == AppLifecycleState.inactive){
-      // app is inactive
-      print("State"+"InActive");
-    }else if(state == AppLifecycleState.paused){
-      // user is about quit our app temporally
-      print("State"+"Paused");
-    }else if(state == AppLifecycleState.detached){
-      // app suspended (not used in iOS)
-      print("State"+"Detached");
-    }
-  }
 
   _fieldFocusChange(
       BuildContext context, FocusNode currentFocus, FocusNode nextFocus) {
@@ -325,4 +377,7 @@ class _HomeScreen extends State<HomeScreen>   with WidgetsBindingObserver {
     FocusScope.of(context).requestFocus(nextFocus);
   }
 
+   getHintText(String hint){
+    return  Text(hint,style: const TextStyle(fontSize: 12,color: Colors.black,fontWeight: FontWeight.bold));
+  }
 }

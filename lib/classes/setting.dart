@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import '../database/dbManager.dart';
 import '../model/addSettingData.dart';
 import '../uttils/uttils.dart';
+import '../widget/country_selection_textfield_widget.dart';
 
 
 class Setting extends StatefulWidget {
@@ -14,7 +15,7 @@ class Setting extends StatefulWidget {
 
 }
 
-class _SettingScreen extends State<Setting>{
+class _SettingScreen extends State<Setting>  with WidgetsBindingObserver{
 
   // Controller
   TextEditingController meterController = TextEditingController();
@@ -22,10 +23,18 @@ class _SettingScreen extends State<Setting>{
   TextEditingController workController = TextEditingController();
   TextEditingController rateController = TextEditingController();
 
+
+  final FocusNode _meterNode = FocusNode();
+  final FocusNode _framedNode = FocusNode();
+  final FocusNode _workNode = FocusNode();
+  final FocusNode _ratewordNode = FocusNode();
+
+
   @override
   void initState() {
     super.initState();
-
+    print("AppState- Init State");
+    WidgetsBinding.instance?.addObserver(this);
     final DbManager dbManager = DbManager();
     dbManager.openDb().whenComplete(() async {
        getSettingData();
@@ -43,38 +52,118 @@ class _SettingScreen extends State<Setting>{
               color: Colors.white
           ),
           child: Column(
-            children:   <Widget> [
+            children:  <Widget> [
               const Padding(padding: EdgeInsets.all(20),child:  Text("Setting",style: TextStyle(fontSize: 25,color: Colors.black,fontWeight: FontWeight.bold),),),
-               TextField(
-                keyboardType: TextInputType.number,
-                controller: meterController,// change `text` every text input change
-                decoration: const InputDecoration(labelText: 'Meter', border: OutlineInputBorder()),
-              ),
-               Padding(padding: const EdgeInsets.only(top: 20),child: TextField(
-                controller: frameController,// change `text` every text input change
-                decoration: const InputDecoration(labelText: 'Frame', border: OutlineInputBorder()),
-                  keyboardType: TextInputType.number
-              ),
-              ),
-               Padding(padding: const EdgeInsets.only(top: 20),child: TextField(
-                  controller: workController,// change `text` every text input change
-                  decoration: const InputDecoration(labelText: 'Work', border: OutlineInputBorder()),
-                  keyboardType: TextInputType.number
-              ),),
-               Padding(padding: const EdgeInsets.only(top: 20),child: TextField(
-                controller: rateController,// change `text` every text input change
-                  decoration: const InputDecoration(labelText: 'Rate', border: OutlineInputBorder()),
-                  keyboardType: TextInputType.number
-              ),),
-              Padding(padding: const EdgeInsets.all(20),child:
-              ElevatedButton(
-                  onPressed: (){
-                    checkValidation();
-             //   Navigator.of(context).push(MaterialPageRoute(builder: (context) => const AddCanvas()));
-              }, child: const Text("Submit")))
-              // display your text
+              Align(
+                alignment: Alignment.center,
+                child:    Column(
+                  children:    <Widget> [
+                    Center(
+                      child: Column(
+                        children: [
+                          Padding(
+                            padding: const EdgeInsets.only(left: 46, right: 46),child:  Align(
+                              alignment: Alignment.topLeft,
+                              child: Uttils.getHintFiledText("Meter")
+                          ),),
+                          Padding(
+                            padding: const EdgeInsets.only(left: 46, right: 46),
+                            child: CountrySelectionTextField(
+                              myController: meterController,
+                              myFocusNode: _meterNode,
+                              hintText: "Enter Meter Here",
+                              inputAction: TextInputAction.next,
+                              inputType: TextInputType.number,
+                              onSubmited: (str) {
+                              }, onChanged: (String ) {  },
+                            ),
+                          ),
+                          const SizedBox(
+                            height: 12,
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.only(left: 46, right: 46),child:  Align(
+                              alignment: Alignment.topLeft,
+                              child: Uttils.getHintFiledText("Frame")
+                          ),),
+                          Padding(
+                            padding: const EdgeInsets.only(left: 46, right: 46),
+                            child: CountrySelectionTextField(
+                              myController: frameController,
+                              myFocusNode: _framedNode,
+                              hintText: "Enter Frame Here",
+                              inputAction: TextInputAction.next,
+                              inputType: TextInputType.number,
+                              onSubmited: (str) {
+                              }, onChanged: (String ) {  },
+                            ),
+                          ),
+                          const SizedBox(
+                            height: 12,
+                          ),
+
+                          Padding(
+                            padding: const EdgeInsets.only(left: 46, right: 46),child:  Align(
+                              alignment: Alignment.topLeft,
+                              child: Uttils.getHintFiledText("Work")
+                          ),),
+                          Padding(
+                            padding: const EdgeInsets.only(left: 46, right: 46),
+                            child: CountrySelectionTextField(
+                              myController: workController,
+                              myFocusNode: _workNode,
+                              hintText: "Enter Work Here",
+                              inputAction: TextInputAction.next,
+                              inputType: TextInputType.number,
+                              onSubmited: (str) {
+                              }, onChanged: (String ) {  },
+                            ),
+                          ),
+
+                          const SizedBox(
+                            height: 12,
+                          ),
+
+                          Padding(
+                            padding: const EdgeInsets.only(left: 46, right: 46),child:  Align(
+                              alignment: Alignment.topLeft,
+                              child: Uttils.getHintFiledText("Rate")
+                          ),),
+
+                          Padding(
+                            padding: const EdgeInsets.only(left: 46, right: 46),
+                            child: CountrySelectionTextField(
+                              myController: rateController,
+                              myFocusNode: _ratewordNode,
+                              hintText: "Enter Rate Here",
+                              inputAction: TextInputAction.next,
+                              inputType: TextInputType.number,
+                              onSubmited: (str) {
+                              }, onChanged: (String ) {  },
+                            ),
+                          ),
+
+                          const SizedBox(
+                            height: 12,
+                          )
+                        ],
+                      ),
+                    ),
+                    ElevatedButton.icon(
+                      onPressed: () {
+                        // Respond to button press
+                        checkValidation();
+                      },
+                      icon: const Icon(Icons.add, size: 18),
+                      label: const Text("Submit"),
+                    )
+                  ],
+                ),
+              )
+
             ],
-          ),
+          )
+         ,
         ),
 
       )),
@@ -128,4 +217,12 @@ class _SettingScreen extends State<Setting>{
     }
   }
 
+
+  @override
+  void didChangeAppLifecycleState(AppLifecycleState state) {
+    print("AppState${state.name}");
+    if (state == AppLifecycleState.resumed) {
+      //do your stuff
+    }
+  }
 }

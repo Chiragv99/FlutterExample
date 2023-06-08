@@ -25,4 +25,24 @@ class Uttils  {
     ));
   }
 
+
+  static getHintText(String hint){
+    return  Text(hint,style: const TextStyle(fontSize: 12,color: Colors.black,fontWeight: FontWeight.bold));
+  }
+  static getHintFiledText(String hint){
+    return  Text(hint,style: const TextStyle(fontSize: 12,color: Colors.red,fontWeight: FontWeight.bold));
+  }
+
+  static Widget getMainButton(String str_header){
+    return  ElevatedButton(
+      onPressed: () {},
+      style: ElevatedButton.styleFrom(
+          primary: Colors.pink,
+          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10),),
+          textStyle: const TextStyle(
+              fontSize: 15,
+              fontWeight: FontWeight.bold)),
+      child: Text(str_header),
+    );
+  }
 }

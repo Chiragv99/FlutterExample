@@ -87,7 +87,7 @@ class _CountrySelectionTextFieldState extends State<CountrySelectionTextField> {
                   decoration: InputDecoration(
                     border: InputBorder.none,
                     hintText: widget.hintText,
-                    fillColor: Colors.grey,
+                    fillColor: Colors.red,
                     counterText: "",
                   ),
                   onChanged: (str) {

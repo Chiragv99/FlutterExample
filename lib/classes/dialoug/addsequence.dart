@@ -25,10 +25,8 @@ class _AddSequenceState extends State<AddSequence> {
   }
   contentBox(context){
     return Stack(
-      children: <Widget>[
-        Container(
-         child: const Text("Hello"),
-        ),
+      children: const <Widget>[
+        Text("Hello"),
       ],
     );
   }
