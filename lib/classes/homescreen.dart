@@ -115,30 +115,7 @@ class _HomeScreen extends ResumableState<HomeScreen> {
                  child:
                  Column(
                    children:   <Widget> [
-                     const Text("Calculation",style: TextStyle(fontSize: 12,color: Colors.black),),
-                     Align(
-                         alignment: Alignment.topRight,
-                         child: InkWell(
-                             onTap: (){
-                               push(context, MaterialPageRoute(builder: (context) => Setting()));
-                               //  Navigator.of(context).push(MaterialPageRoute(builder: (context) => const Setting()));
-                             },
-                             child:
-                             Padding(padding: const EdgeInsets.only(top: 10),child:
-                             Align(
-                               alignment: Alignment.topRight,
-                               child: SizedBox(
-                                 width: 40,
-                                 height: 40,
-                                 child:   Card(
-                                   elevation: 10,
-                                   child: Container(
-                                       child: image
-                                   ),
-                                 ),
-                               ),
-                             ),
-                             ))),
+                     const Padding(padding: EdgeInsets.all(20),child:  Text("Home",style: TextStyle(fontSize: 25,color: Colors.black,fontWeight: FontWeight.bold),),),
                      SingleChildScrollView(
                        child: Column(
                          children: [
