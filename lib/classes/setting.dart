@@ -1,12 +1,16 @@
 import 'package:flutter/material.dart';
 
+import '../common/coustom_bottom_nav_bar.dart';
 import '../database/dbManager.dart';
+import '../enums.dart';
 import '../model/addSettingData.dart';
 import '../uttils/uttils.dart';
 import '../widget/country_selection_textfield_widget.dart';
 
 
 class Setting extends StatefulWidget {
+
+  static String routeName = "/setting";
 
   const Setting({Key? key}) : super(key: key);
 
@@ -44,6 +48,7 @@ class _SettingScreen extends State<Setting>  with WidgetsBindingObserver{
   @override
   Widget build(BuildContext context) {
     return  Scaffold(
+      bottomNavigationBar: const CustomBottomNavBar(selectedMenu: MenuState.setting),
       body: Padding(padding:  const EdgeInsets.all(10),child: SizedBox(
         width: Uttils.getDeviceWidth(context),
         height: Uttils.getDeviceHeight(context),

@@ -37,7 +37,7 @@ class Uttils  {
     return  ElevatedButton(
       onPressed: () {},
       style: ElevatedButton.styleFrom(
-          primary: Colors.pink,
+          primary: Colors.blue,
           shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10),),
           textStyle: const TextStyle(
               fontSize: 15,

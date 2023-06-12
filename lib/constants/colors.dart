@@ -34,3 +34,16 @@ const kAccentRed = Color(0xFFFFECE8);
 const kAccentYellow = Color(0xFFFFF6E4);
 const kAccentPurple = Color(0xFFF1EDFC);
 const kAccentTosca = Color(0xFFDDF5F4);
+
+
+const String kEmailNullError = "Please Enter your email";
+const String kInvalidEmailError = "Please Enter Valid Email";
+const String kPassNullError = "Please Enter your password";
+const String kShortPassError = "Password is too short";
+const String kMatchPassError = "Passwords don't match";
+const String kNamelNullError = "Please Enter your name";
+const String kPhoneNumberNullError = "Please Enter your phone number";
+const String kAddressNullError = "Please Enter your address";
+
+final RegExp emailValidatorRegExp =
+RegExp(r"^[a-zA-Z0-9.]+@[a-zA-Z0-9]+\.[a-zA-Z]+");

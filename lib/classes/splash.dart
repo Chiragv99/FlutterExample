@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutterapi/classes/homescreen.dart';
 import 'package:flutterapi/uttils/uttils.dart';
 
+import '../common/size_config.dart';
 import '../database/dbManager.dart';
 
 
@@ -32,6 +33,7 @@ class _Splash extends State<Splash>{
   @override
   Widget build(BuildContext context) {
     // TODO: implement build
+    SizeConfig().init(context);
     return Scaffold(
         body:
         Container(
