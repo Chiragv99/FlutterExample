@@ -58,6 +58,7 @@ class _SettingScreen extends State<Setting>  with WidgetsBindingObserver{
           ),
           child: Column(
             children:  <Widget> [
+              const SizedBox(height: 30),
               const Padding(padding: EdgeInsets.all(20),child:  Text("Setting",style: TextStyle(fontSize: 25,color: Colors.black,fontWeight: FontWeight.bold),),),
               Align(
                 alignment: Alignment.center,

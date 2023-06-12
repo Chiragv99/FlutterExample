@@ -115,6 +115,9 @@ class _HomeScreen extends ResumableState<HomeScreen> {
                  child:
                  Column(
                    children:   <Widget> [
+                     const SizedBox(
+                       height: 20,
+                     ),
                      const Padding(padding: EdgeInsets.all(20),child:  Text("Home",style: TextStyle(fontSize: 25,color: Colors.black,fontWeight: FontWeight.bold),),),
                      SingleChildScrollView(
                        child: Column(
@@ -374,17 +377,9 @@ class _HomeScreen extends ResumableState<HomeScreen> {
          rateController.text = rate;
       });
     }
-
   }
 
-
-  _fieldFocusChange(
-      BuildContext context, FocusNode currentFocus, FocusNode nextFocus) {
-    currentFocus.unfocus();
-    FocusScope.of(context).requestFocus(nextFocus);
-  }
-
-   getHintText(String hint){
+  getHintText(String hint){
     return  Text(hint,style: const TextStyle(fontSize: 12,color: Colors.black,fontWeight: FontWeight.bold));
   }
 
