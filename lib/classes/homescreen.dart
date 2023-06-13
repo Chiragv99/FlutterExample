@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutterapi/classes/addcanvas.dart';
 import 'package:flutterapi/classes/detailpage.dart';
+import 'package:flutterapi/classes/sequence/addsequence.dart';
 import 'package:flutterapi/classes/setting.dart';
 import 'package:flutterapi/model/addCanvasModel.dart';
 import 'package:flutterapi/model/invoice.dart';
@@ -99,7 +100,6 @@ class _HomeScreen extends ResumableState<HomeScreen> {
 
   @override
   Widget build(BuildContext context) {
-    var image = Image(image: assetsImage, fit: BoxFit.cover);
      return Scaffold(
        bottomNavigationBar:  const CustomBottomNavBar(selectedMenu: MenuState.home),
        body: Padding(padding: const EdgeInsets.all(10),
@@ -225,7 +225,11 @@ class _HomeScreen extends ResumableState<HomeScreen> {
                                DefaultButton(
                                  text: "Add Sequence",
                                  press: () {
-                                   checkValidation();
+                                   Navigator.of(context).push(
+                                     MaterialPageRoute(
+                                       builder: (context) => const AddSequence(),
+                                     ),
+                                   );
                                  },
                                  width: 80,
                                  height: 45,

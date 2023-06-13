@@ -43,6 +43,8 @@ dependencies:
   need_resume: ^1.0.7+1
   google_fonts: ^2.1.0
   flutter_svg: ^0.22.0
+  get: ^4.6.5
+  http: ^0.13.5
 
 dev_dependencies:
   flutter_test:
