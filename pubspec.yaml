@@ -72,6 +72,7 @@ flutter:
   assets:
     - assets/images/petehouston.png
     - assets/images/setting.png
+    - assets/images/placeholder.png
     - assets/icons/
 
   # To add assets to your application, add an assets section, like this:

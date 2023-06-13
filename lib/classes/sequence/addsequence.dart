@@ -49,15 +49,30 @@ class _AddSequence extends State<AddSequence>{
                        child:
                        ListTile(
                          title:
-                             Row(
+                             Column(
                                children: [
-                                 Padding(padding: const EdgeInsets.all(10),child:  SizedBox(
-                                   width: 50,
-                                   height: 50,
-                                   child: Image.network(getAlbumListResponse.getAlbumListResponseData[index].url),),),
-                                 Text(getAlbumListResponse.getAlbumListResponseData[index].title,style: const TextStyle(color: Colors.black,fontSize: 20,fontWeight: FontWeight.bold),),
+                                 Row(
+                                   children: [
+                                     Padding(padding: const EdgeInsets.all(10),child:  SizedBox(
+                                       width: 50,
+                                       height: 50,
+                                       child:   FadeInImage.assetNetwork(
+                                         placeholder: 'assets/images/placeholder.png',
+                                         image: getAlbumListResponse.getAlbumListResponseData[index].url,
+                                       ),),),
+                                     Expanded(child: Text(getAlbumListResponse.getAlbumListResponseData[index].title,style: const TextStyle(color: Colors.black,fontSize: 20,fontWeight: FontWeight.bold),)
+                                     ),
+                                   ],
+                                 ),
+                                  Padding(padding: const EdgeInsets.all(10),child:  Align(
+                                    alignment: Alignment.topLeft,
+                                    child:  Text(getAlbumListResponse.getAlbumListResponseData[index].title),
+                                  ),)
+
+
                                ],
                              )
+
 
                        ),
                      ));
