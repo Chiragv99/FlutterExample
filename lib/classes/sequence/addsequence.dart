@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutterapi/model/getAlbumReponse.dart';
 import 'package:get/get.dart';
 
 import '../../controller/getAlbumcontroller.dart';
@@ -39,7 +38,9 @@ class _AddSequence extends State<AddSequence>{
                 ),
                  const Padding(padding: EdgeInsets.all(20),child:  Text("Add Sequence",style: TextStyle(fontSize: 25,color: Colors.black,fontWeight: FontWeight.bold),),),
                  Obx(() => getAlbumListResponse.isLoading.value ? const Center(
-                   child: CircularProgressIndicator() ,
+                   child:  Center(
+                     child: CircularProgressIndicator()  ,
+                   ) ,
                  ) : Expanded(child:
                  ListView.builder(
                    itemCount: getAlbumListResponse.getAlbumListResponseData.length,
@@ -68,12 +69,8 @@ class _AddSequence extends State<AddSequence>{
                                     alignment: Alignment.topLeft,
                                     child:  Text(getAlbumListResponse.getAlbumListResponseData[index].title),
                                   ),)
-
-
                                ],
                              )
-
-
                        ),
                      ));
                    },
