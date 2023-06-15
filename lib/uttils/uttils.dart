@@ -45,4 +45,53 @@ class Uttils  {
       child: Text(str_header),
     );
   }
+
+  static isEmailValid(String email) {
+    bool emailValid = RegExp(r'^.+@[a-zA-Z]+\.{1}[a-zA-Z]+(\.{0,1}[a-zA-Z]+)$').hasMatch(email);
+    print (emailValid);
+    return emailValid;// true
+  }
+
+  static getHeader(String header, double height){
+    return  Center(
+      child: SizedBox(
+          width: 200,
+          height: height,
+          child: Center(
+            child: Text(header,style: const TextStyle(color: Colors.white,fontSize: 30,fontWeight: FontWeight.bold),) ,
+          )
+      ),
+    );
+  }
+
+  static Widget getEditText(String text, String hint, TextEditingController emailController, FocusNode emailFocus){
+    return   TextField(
+      style:  const TextStyle(color: Colors.white),
+      controller: emailController,
+      focusNode: emailFocus,
+      keyboardType: TextInputType.visiblePassword,
+      decoration: InputDecoration(
+          fillColor: const Color(0xFFF2F2F2),
+          enabledBorder: const OutlineInputBorder(
+              borderSide: BorderSide(width: 1, color: Colors.white)
+          ),
+          disabledBorder: const OutlineInputBorder(
+            borderRadius: BorderRadius.all(Radius.circular(1)),
+            borderSide: BorderSide(width: 1,color: Colors.grey),
+          ),
+          focusedBorder: const OutlineInputBorder(
+            borderRadius: BorderRadius.all(Radius.circular(1)),
+            borderSide: BorderSide(width: 1,color: Colors.grey),
+          ),
+          border: const OutlineInputBorder(
+              borderSide: BorderSide(width: 1, color: Colors.white)
+          ),
+          hintStyle:  const TextStyle(fontSize: 14,color: Colors.white),
+          labelText: text,
+          labelStyle: const TextStyle(
+              color: Colors.white
+          ),
+          hintText: hint),
+    );
+  }
 }

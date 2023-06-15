@@ -1,14 +1,10 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutterapi/classes/addcanvas.dart';
 import 'package:flutterapi/classes/detailpage.dart';
 import 'package:flutterapi/classes/sequence/addsequence.dart';
-import 'package:flutterapi/classes/setting.dart';
 import 'package:flutterapi/model/addCanvasModel.dart';
 import 'package:flutterapi/model/invoice.dart';
-import 'package:flutterapi/uttils/constant.dart';
 import 'package:flutterapi/uttils/uttils.dart';
-import 'package:flutterapi/widget/mainbutton.dart';
 
 import '../common/coustom_bottom_nav_bar.dart';
 import '../common/custom_surfix_icon.dart';

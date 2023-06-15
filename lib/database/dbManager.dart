@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'package:flutterapi/model/addCanvasRate.dart';
+import 'package:flutterapi/model/registerUser.dart';
 import 'package:path/path.dart';
 import 'package:sqflite/sqflite.dart';
 
@@ -9,6 +10,7 @@ import '../model/addSettingData.dart';
 
 class DbManager {
   late Database _database;
+  String str_SignupTable = "signup";
 
   Future openDb() async {
     _database = await openDatabase(join(await getDatabasesPath(), "calculation.db"),
@@ -21,6 +23,10 @@ class DbManager {
           );
           await db.execute(
             "CREATE TABLE setting(id INTEGER PRIMARY KEY autoincrement, meter TEXT, frame TEXT, work TEXT, rate TEXT)",
+          );
+
+          await db.execute(
+            "CREATE TABLE signup(id INTEGER PRIMARY KEY autoincrement, firstname TEXT, lastname TEXT, email TEXT, password TEXT)",
           );
         });
     return _database;
@@ -68,6 +74,14 @@ class DbManager {
     return result.map((e) => AddCanvasModel.fromMap(e)).toList();
   }
 
+  Future<int> registerUser(RegisterUser registerUser) async {
+    int data = 0;
+    final Database db = await openDb();
+    var dbTable = str_SignupTable;
+    var result = await db.insert(dbTable, registerUser.toMap(), conflictAlgorithm: ConflictAlgorithm.replace);
+     return data;
+  }
+
   Future<String> getCurrencyRates(int  id) async {
     String rate ;
     final Database db = await openDb();
@@ -84,5 +98,22 @@ class DbManager {
       rate = lg[0].toString();
     }
     return rate;
+  }
+
+  Future<String> checkUserIsExist(String email) async{
+    String emailAddress = "";
+    final Database db =  await openDb();
+    String query = "SELECT email FROM $str_SignupTable WHERE email = 'tt@gmai.com'";
+    print(query);
+    List<Map<String, dynamic>> lg =  await db.rawQuery("select email from signup where email = 'tt@gmai.com' limit 1");
+    print(lg);
+    var map1  = Map.fromIterable(lg, key: (e) => e.email);
+    print(map1);
+    if (lg.length > 0) {
+      emailAddress = lg[0].toString();
+    } else {
+      emailAddress = lg[0].toString();
+    }
+    return emailAddress;
   }
 }
