@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutterapi/uttils/constant.dart';
+import 'package:hive/hive.dart';
 
 class Uttils  {
 
@@ -93,5 +95,20 @@ class Uttils  {
           ),
           hintText: hint),
     );
+  }
+
+  static saveLoginData(String email, String password) async{
+    final box = Hive.box(Constant.boxName);
+    Hive.openBox(Constant.boxName);
+    box.put(Constant.email, email);
+    box.put(Constant.password, password);
+    await box.put('some_key', "test");
+  }
+  static String getLoginData(){
+    String email = "";
+    final box = Hive.box(Constant.boxName);
+     email = box.get(Constant.email);
+     print("Email"+email);
+    return email;
   }
 }

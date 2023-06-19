@@ -1,7 +1,11 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
+import 'package:flutterapi/classes/homescreen.dart';
 import 'package:flutterapi/classes/login/login.dart';
+import 'package:flutterapi/uttils/constant.dart';
 import 'package:flutterapi/uttils/uttils.dart';
+import 'package:hive/hive.dart';
+import 'package:hive_flutter/adapters.dart';
 import '../common/size_config.dart';
 import '../database/dbManager.dart';
 
@@ -20,12 +24,14 @@ class _Splash extends State<Splash>{
   void initState() {
     super.initState();
     dbManager.openDb();
+    initHive();
     Timer(const Duration(seconds: 5), () {
       // Navigator.pushReplacement(context,   MaterialPageRoute(builder:
       //     (context) =>
       //     const HomeScreen()
       // ));
     });
+
   }
     
   @override
@@ -78,7 +84,7 @@ class _Splash extends State<Splash>{
                     print("Login"+"Login");
                     Navigator.pushReplacement(context,   MaterialPageRoute(builder:
                         (context) =>
-                        const Login()
+                       HomeScreen()
                     ));
                   },
                 )
@@ -128,4 +134,12 @@ class _Splash extends State<Splash>{
     );
 
    }
+
+  void initHive() async {
+    await Hive.initFlutter();
+    await Hive.openBox(Constant.boxName);
+    final myBox = Hive.box('shopping_box');
+    final something = myBox.get('my_key');
+    print("MyData"+something);
+  }
 }

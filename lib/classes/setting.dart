@@ -48,7 +48,6 @@ class _SettingScreen extends State<Setting>  with WidgetsBindingObserver{
   @override
   Widget build(BuildContext context) {
     return  Scaffold(
-      bottomNavigationBar: const CustomBottomNavBar(selectedMenu: MenuState.setting),
       body: Padding(padding:  const EdgeInsets.all(10),child: SizedBox(
         width: Uttils.getDeviceWidth(context),
         height: Uttils.getDeviceHeight(context),
@@ -76,7 +75,6 @@ class _SettingScreen extends State<Setting>  with WidgetsBindingObserver{
                             padding: const EdgeInsets.only(left: 46, right: 46),
                             child: CountrySelectionTextField(
                               myController: meterController,
-                              myFocusNode: _meterNode,
                               hintText: "Enter Meter Here",
                               inputAction: TextInputAction.next,
                               inputType: TextInputType.number,
@@ -96,7 +94,6 @@ class _SettingScreen extends State<Setting>  with WidgetsBindingObserver{
                             padding: const EdgeInsets.only(left: 46, right: 46),
                             child: CountrySelectionTextField(
                               myController: frameController,
-                              myFocusNode: _framedNode,
                               hintText: "Enter Frame Here",
                               inputAction: TextInputAction.next,
                               inputType: TextInputType.number,
@@ -117,7 +114,6 @@ class _SettingScreen extends State<Setting>  with WidgetsBindingObserver{
                             padding: const EdgeInsets.only(left: 46, right: 46),
                             child: CountrySelectionTextField(
                               myController: workController,
-                              myFocusNode: _workNode,
                               hintText: "Enter Work Here",
                               inputAction: TextInputAction.next,
                               inputType: TextInputType.number,
@@ -140,7 +136,6 @@ class _SettingScreen extends State<Setting>  with WidgetsBindingObserver{
                             padding: const EdgeInsets.only(left: 46, right: 46),
                             child: CountrySelectionTextField(
                               myController: rateController,
-                              myFocusNode: _ratewordNode,
                               hintText: "Enter Rate Here",
                               inputAction: TextInputAction.next,
                               inputType: TextInputType.number,

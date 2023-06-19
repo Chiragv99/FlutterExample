@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:ffi';
 import 'package:flutterapi/model/addCanvasRate.dart';
 import 'package:flutterapi/model/registerUser.dart';
 import 'package:path/path.dart';
@@ -100,20 +101,30 @@ class DbManager {
     return rate;
   }
 
-  Future<String> checkUserIsExist(String email) async{
-    String emailAddress = "";
+  Future<bool> checkUserIsExist(String email) async{
+    bool emailAddress = false;
     final Database db =  await openDb();
-    String query = "SELECT email FROM $str_SignupTable WHERE email = 'tt@gmai.com'";
-    print(query);
-    List<Map<String, dynamic>> lg =  await db.rawQuery("select email from signup where email = 'tt@gmai.com' limit 1");
-    print(lg);
-    var map1  = Map.fromIterable(lg, key: (e) => e.email);
-    print(map1);
+    List<Map<String, dynamic>> lg =  await db.rawQuery("SELECT email FROM signup WHERE email = '$email' limit 1");
+    print("select email from signup where email = $email limit 1");
     if (lg.length > 0) {
-      emailAddress = lg[0].toString();
+      emailAddress = true;
     } else {
-      emailAddress = lg[0].toString();
+      emailAddress =  false;
     }
+    print("element$emailAddress");
     return emailAddress;
+  }
+
+  Future<bool> checkLoginCredentails(String email, String password) async{
+    bool isPassword = false;
+    final Database db = await openDb();
+    List<Map<String,dynamic>> lg =  await  db.rawQuery("SELECT email FROM signup WHERE email = '$email' AND password = '$password' limit 1");
+    if (lg.isNotEmpty) {
+      isPassword = true;
+    } else {
+      isPassword =  false;
+    }
+    print("element$isPassword");
+    return isPassword;
   }
 }

@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutterapi/classes/login/login.dart';
 import 'package:flutterapi/model/registerUser.dart';
+import 'package:get/get.dart';
 
 import '../../common/default_button.dart';
 import '../../database/dbManager.dart';
@@ -166,20 +168,33 @@ class _Signup extends State<Signup>{
       var lastName = lastnameController.text.toString().trim();
       var email  = emailController.text.toString().trim();
       var password = passwordController.text.toString().trim();
-      final DbManager dbManager = DbManager();
-      if(dbManager.checkUserIsExist(email) != ""){
-        Uttils.showSnakbar(context, const Text("User Already Exist!"));
-      }
-      else{
-        registerUser(firstName,lastName,email,password);
-      }
+      checkUserisExist(firstName,lastName,email,password,context);
+    }
+  }
+
+  void checkUserisExist(String firstName, String lastName, String email, String password, BuildContext context) async{
+    final DbManager dbManager = DbManager();
+    Future<bool> isExist = dbManager.checkUserIsExist(email);
+    bool checkUser = await isExist;
+    if(checkUser == true){
+     // ignore: use_build_context_synchronously
+     Uttils.showSnakbar(context, const Text("User Is Already Exist!"));
+    }
+    else{
+      registerUser(firstName, lastName, email, password,context);
     }
   }
 
 }
 
-void registerUser(String firstName, String lastName, String email, String password) {
+void registerUser(String firstName, String lastName, String email, String password, BuildContext context) {
   final DbManager dbManager = DbManager();
   var register = RegisterUser(firstname: firstName, lastname: lastName, email: email, password: password);
   dbManager.registerUser(register);
+  Uttils.showSnakbar(context, const Text("You are Registered Successfully!"));
+  Navigator.of(context).push(
+    MaterialPageRoute(
+      builder: (context) => const Login(),
+    ),
+  );
 }

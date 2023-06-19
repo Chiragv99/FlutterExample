@@ -1,9 +1,13 @@
-import 'dart:async';
-
 import 'package:flutter/material.dart';
+import 'package:flutterapi/classes/bottombar/bottomnavigationexample.dart';
+import 'package:flutterapi/classes/homescreen.dart';
 import 'package:flutterapi/classes/splash.dart';
+import 'package:hive_flutter/adapters.dart';
 
-void main() {
+void main() async{
+  await Hive.initFlutter();
+  await Hive.openBox('shopping_box');
+
   runApp(const MyApp());
 }
 
@@ -18,7 +22,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home:  const Splash(),
+      home:  BottomNavigationExample(),
     );
   }
 }

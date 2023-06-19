@@ -6,7 +6,6 @@ import  'package:flutterapi/common/my_colors.dart';
 
 class CountrySelectionTextField extends StatefulWidget {
   final TextEditingController myController;
-  FocusNode myFocusNode;
   final String hintText;
   final TextInputType inputType;
   final TextInputAction inputAction;
@@ -16,7 +15,6 @@ class CountrySelectionTextField extends StatefulWidget {
 
   CountrySelectionTextField({
     required this.myController,
-    required this.myFocusNode,
     this.myMargin = const EdgeInsets.all(0),
     required this.hintText,
     this.inputType = TextInputType.number,
@@ -73,15 +71,13 @@ class _CountrySelectionTextFieldState extends State<CountrySelectionTextField> {
                 ),
               ],
             ),
-            Flexible(
+            Expanded(
               child: Opacity(
                 opacity: 0.64,
                 child: TextField(
                   maxLength: 12,
                   autofocus: false,
                   controller: widget.myController,
-                  focusNode:
-                      widget.myFocusNode,
                   keyboardType: TextInputType.number,
                   textInputAction: widget.inputAction,
                   decoration: InputDecoration(
