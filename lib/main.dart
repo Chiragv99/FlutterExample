@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
-import 'package:flutterapi/classes/bottombar/bottomnavigationexample.dart';
-import 'package:flutterapi/classes/homescreen.dart';
-import 'package:flutterapi/classes/splash.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutterapi/classes/blockexample.dart';
 import 'package:hive_flutter/adapters.dart';
+
+import 'classes/block/app_cubit.dart';
 
 void main() async{
   await Hive.initFlutter();
   await Hive.openBox('shopping_box');
-
   runApp(const MyApp());
 }
 
@@ -22,7 +22,8 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home:  BottomNavigationExample(),
+      home: BlocProvider(create: (context) => AppCubit(),
+      child: BlockExample(),),
     );
   }
 }

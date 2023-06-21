@@ -1,6 +1,5 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutterapi/classes/block/counterbloc.dart';
 import 'package:flutterapi/classes/bottombar/bottomnavigationexample.dart';
 import 'package:flutterapi/classes/detailpage.dart';
 import 'package:flutterapi/classes/sequence/addsequence.dart';
